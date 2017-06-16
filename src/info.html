@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title id="votetitle">在线投票选手</title>
+	<meta content="telephone=no" name="format-detection" />
+	<meta name="description" content="">
+	<script type="text/javascript">
+		if(/Android (\d+\.\d+)/.test(navigator.userAgent)) {
+			var version = parseFloat(RegExp.$1);
+			if(version > 2.3) {
+				var phoneScale = parseInt(window.screen.width) / 750;
+				document.write('<meta name="viewport" content="width=750, minimum-scale = ' + phoneScale + ', maximum-scale = ' + phoneScale + ', target-densitydpi=device-dpi" />');
+			} else {
+				document.write('<meta name="viewport" content="width=750, target-densitydpi=device-dpi" />');
+			}
+		} else {
+			document.write('<meta name="viewport" content="width=750, user-scalable=no, target-densitydpi=device-dpi" />');
+		}
+	</script>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<script type="text/javascript" src="js/vue.min.js"></script>
+	<script type="text/javascript" src="js/vue-resource.min.js"></script>
+	<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<script type="text/javascript" src="js/util.js"></script>
+	<script type="text/javascript" src="js/api.js"></script>
+	<script type="text/javascript" src="js/wxconfig.js"></script>
+</head>
+<body>
+	<div id="infoapp" v-cloak>
+		<div class="infoname">{{actordetailData.actorName}}</div>
+		<div class="infonum">
+			<div class="infonumtest">
+				<div class="infonumlink"><img src="/images/ren.png">编号</div>
+				<div class="infonumber">{{actordetailData.sort}}</div>
+			</div>
+			<div class="infonumtest">
+				<div class="infonumlink"><img src="/images/votelink.png">票数</div>
+				<div class="infonumber">{{actordetailData.actorCount+actordetailData.giftCount}}</div>
+			</div>
+			<div class="infonumtest">
+				<div class="infonumlink"><img src="/images/hot.png">热度</div>
+				<div class="infonumber">{{actordetailData.actorCount}}</div>
+			</div>
+			<div class="infonumtest">
+				<div class="infonumlink"><img src="/images/lw.png">礼物</div>
+				<div class="infonumber">{{actordetailData.totalPrice}}</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="infocont">
+			<div class="infoconttitle"><img src="/images/laba.png">宣言：</div>
+			<div class="detailtext" style="margin-top:0px;" v-html="actordetailData.declaration"></div>
+			<div class="infocontimg"><img :src="actordetailData.actorImage"></div>
+			<div class="infocontbtn" style="display:none;"><a :href="'modify.html?activityid='+actordetailData.activityId">我也要参加</a></div>
+		</div>
+		<div class="liwulist liwulisttop"><img src="/images/list.png">礼物列表</div>
+		<div class="liwulistbox">
+			<div class="liwulistcont" v-for="givingslist in actorgiftslistData">
+				<div class="liwulistimg"><img :src="givingslist.sendImage"></div>
+				<div class="liwulisttext">
+					<div class="liwulisttextH">{{givingslist.sendName}}，给TA送了{{givingslist.giftName}}！</div>
+					<div class="liwulisttextF">{{givingslist.creationTime}}</div>
+				</div>
+			</div>
+			<div class="loadlist" @click="loadmore()">查看更多</div>
+		</div>
+		<div class="bombboxbg" v-show="bombbox"></div>
+		<div class="bombbox" v-show="bombbox">
+			<div class="bombboxtext" v-html="bombboxtext">投票成功</div>
+			<div class="bombboxbtn" @click="bombbox = false">确定</div>
+		</div>
+		<div class="weui-toast" v-show="loadingshow">
+			<i class="weui-loading weui-icon_toast"></i>
+			<p class="weui-toast__content">加载中...</p>
+		</div>
+		<div class="infovote">
+			<a class="infovoteback" :href="'index.html?activityId='+linkid"><img src="/images/back.png">首页</a>
+			<a class="infovoteprize" :href="'giftpay.html?actorid='+actordetailData.id+'&activityid='+actordetailData.activityId"><img src="/images/zuanshi.png">礼物</a>
+			<div class="infovotebtn" @click="postvote(actordetailData.activityId,actordetailData.id)">
+				<div class="infovotebtnimg"><img src="/images/xin.png"></div>
+				<div class="infovotebtntext">投票</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="js/info.js"></script>
+</body>
+</html>

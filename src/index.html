@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title id="votetitle">在线投票</title>
+	<meta content="telephone=no" name="format-detection" />
+	<meta name="description" content="">
+	<script type="text/javascript">
+		if(/Android (\d+\.\d+)/.test(navigator.userAgent)) {
+			var version = parseFloat(RegExp.$1);
+			if(version > 2.3) {
+				var phoneScale = parseInt(window.screen.width) / 750;
+				document.write('<meta name="viewport" content="width=750, minimum-scale = ' + phoneScale + ', maximum-scale = ' + phoneScale + ', target-densitydpi=device-dpi" />');
+			} else {
+				document.write('<meta name="viewport" content="width=750, target-densitydpi=device-dpi" />');
+			}
+		} else {
+			document.write('<meta name="viewport" content="width=750, user-scalable=no, target-densitydpi=device-dpi" />');
+		}
+	</script>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<script type="text/javascript" src="js/vue.min.js"></script>
+	<script type="text/javascript" src="js/vue-resource.min.js"></script>
+	<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<script type="text/javascript" src="js/util.js"></script>
+	<script type="text/javascript" src="js/api.js"></script>
+	<script type="text/javascript" src="js/wxconfig.js"></script>
+	<script type="text/javascript" src="js/Plug.js"></script>
+	<script language="javascript" type="text/javascript" src="js/jquery.js"></script>
+</head>
+<body>
+	<div id="indexapp" v-cloak>
+		<div class="banner"><img :src="bennerurl"></div>
+		<div class="totalnum">
+			<div class="totalnumtest">
+				<div class="totalfilelink"><img src="/images/filelink.png">已报名</div>
+				<div class="totalnumber">{{detailData.actorCount}}</div>
+			</div>
+			<div class="totalnumtest">
+				<div class="totalvotelink"><img src="/images/votelink.png">累计投票</div>
+				<div class="totalvotenumber">{{detailData.totalVotes}}</div>
+			</div>
+			<div class="totalnumtest totalnumline">
+				<div class="totalbrowser"><img src="/images/yjlink.png">访问量</div>
+				<div class="totalnumber">{{addtrafficnum}}</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="countdown">
+			<div class="countdowntext">活动结束倒计时</div>
+			<countdown v-bind:endtime="endTime"></countdown>
+		</div>
+
+		<div class="search">
+			<input type="text" class="searchinput" v-model="searchtext" placeholder="请输入编号或姓名">
+			<div class="searchbtn" @click="searchactorslist()">搜索</div>
+			<div class="clear"></div>
+		</div>
+		<div class="votelist" id="container">
+			<div class="votelistcont" v-for="actorslist in actorslistData" @click="infolink(actorslist.id,actorslist.activityId)">
+				<div class="votelistlink">
+					<div class="totalvote">{{actorslist.sort}}号，{{actorslist.actorCount + actorslist.giftCount}}票</div>
+					<img class="votelistimg" :src="actorslist.actorImage">
+				</div>
+				<div class="votelistname">{{actorslist.actorName}}</div>
+				<div class="votebtn">投票</div>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<div class="loadlist" @click="loadmore()">查看更多</div>
+		<div class="clear"></div>
+		<div class="liwulist"><img src="/images/list.png">活动规则</div>
+		<div class="detailtext" v-html="detailData.rules"></div>
+		<div class="liwulist"><img src="/images/list.png">活动简介</div>
+		<div class="detailtext" v-html="detailData.content"></div>
+		<div class="detaillist">
+			<img v-for="(detailimages,index) in detailData.images" v-show="index != 0" :src="detailimages.url">
+		</div>
+		<div class="bombboxbg" v-show="bombbox"></div>
+		<div class="bombbox" v-show="bombbox">
+			<div class="bombboxtext" v-html="bombboxtext">投票成功</div>
+			<div class="bombboxbtn" @click="bombbox = false">确定</div>
+		</div>
+		<div class="weui-toast" v-show="loadingshow">
+			<i class="weui-loading weui-icon_toast"></i>
+			<p class="weui-toast__content">加载中...</p>
+		</div>
+		<div class="footer">
+			<a :href="'index.html?activityId='+linkid" class="active"><img src="images/indexactive.png"> <p>首页</p></a>
+			<a :href="'prize.html?activityId='+linkid"><img src="images/liwuicon.png"> <p>奖品</p></a>
+			<a :href="'ranking.html?activityId='+linkid"><img src="images/phbicon.png"> <p>榜单</p></a>
+		</div>
+	</div>
+	<script type="text/javascript" src="js/jquery.masonry.min.js"></script>
+	<script type="text/javascript" src="js/index.js"></script>
+</body>
+</html>

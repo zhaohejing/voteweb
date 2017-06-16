@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title id="votetitle">礼物列表</title>
+	<meta content="telephone=no" name="format-detection" />
+	<meta name="description" content="">
+	<script type="text/javascript">
+		if(/Android (\d+\.\d+)/.test(navigator.userAgent)) {
+			var version = parseFloat(RegExp.$1);
+			if(version > 2.3) {
+				var phoneScale = parseInt(window.screen.width) / 750;
+				document.write('<meta name="viewport" content="width=750, minimum-scale = ' + phoneScale + ', maximum-scale = ' + phoneScale + ', target-densitydpi=device-dpi" />');
+			} else {
+				document.write('<meta name="viewport" content="width=750, target-densitydpi=device-dpi" />');
+			}
+		} else {
+			document.write('<meta name="viewport" content="width=750, user-scalable=no, target-densitydpi=device-dpi" />');
+		}
+	</script>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<script type="text/javascript" src="js/vue.min.js"></script>
+	<script type="text/javascript" src="js/vue-resource.min.js"></script>
+	<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<script type="text/javascript" src="js/util.js"></script>
+	<script type="text/javascript" src="js/api.js"></script>
+	<script type="text/javascript" src="js/wxconfig.js"></script>
+	<script src="http://pv.sohu.com/cityjson?ie=utf-8 "></script>
+</head>
+<body>
+	<div id="giftpayapp" v-cloak>
+		<div class="infoname prizepay">
+			<div class="prizepaytx"><img :src="actordetailData.actorImage"></div>
+			<div class="prizepaytext">给<span>{{actordetailData.actorName}}</span>送礼</div>
+		</div>
+		<div class="infonum">
+			<div class="infonumtest">
+				<div class="infonumlink"><img src="/images/ren.png">编号</div>
+				<div class="infonumber">{{actordetailData.sort}}</div>
+			</div>
+			<div class="infonumtest">
+				<div class="infonumlink"><img src="/images/votelink.png">票数</div>
+				<div class="infonumber">{{actordetailData.actorCount+actordetailData.giftCount}}</div>
+			</div>
+			<div class="infonumtest">
+				<div class="infonumlink"><img src="/images/hot.png">热度</div>
+				<div class="infonumber">{{actordetailData.actorCount}}</div>
+			</div>
+			<div class="infonumtest">
+				<div class="infonumlink"><img src="/images/lw.png">礼物</div>
+				<div class="infonumber">{{actordetailData.totalPrice}}</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="prizepaylist">
+			<div class="prizepaycont" v-for="(giftslist,index) in giftslistData" :class="{prizepayactive:index == giftslistindex}" @click="giftslistactive(giftslist.activityId,giftslist.id,index)">
+				<div class="prizepayconting"><img :src="giftslist.imageUrl"></div>
+				<div class="prizepayconttext">{{giftslist.giftName}}</div>
+				<div class="prizepaycontprice">{{giftslist.price/100}}点</div>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<div class="prizepaychoice">请选择以上礼品</div>
+		<div class="prizepaybtn" @click="sendgifts()">微信支付</div>
+		<div class="bombboxbg" v-show="bombbox"></div>
+		<div class="bombbox" v-show="bombbox">
+			<div class="bombboxtext">请选择你要赠送的礼物</div>
+			<div class="bombboxbtn" @click="bombbox = false">确定</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="js/giftpay.js"></script>
+</body>
+</html>

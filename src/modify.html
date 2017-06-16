@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title id="votetitle">报名参加</title>
+	<meta content="telephone=no" name="format-detection" />
+	<meta name="description" content="">
+	<script type="text/javascript">
+		if(/Android (\d+\.\d+)/.test(navigator.userAgent)) {
+			var version = parseFloat(RegExp.$1);
+			if(version > 2.3) {
+				var phoneScale = parseInt(window.screen.width) / 750;
+				document.write('<meta name="viewport" content="width=750, minimum-scale = ' + phoneScale + ', maximum-scale = ' + phoneScale + ', target-densitydpi=device-dpi" />');
+			} else {
+				document.write('<meta name="viewport" content="width=750, target-densitydpi=device-dpi" />');
+			}
+		} else {
+			document.write('<meta name="viewport" content="width=750, user-scalable=no, target-densitydpi=device-dpi" />');
+		}
+	</script>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<script type="text/javascript" src="js/vue.min.js"></script>
+	<script type="text/javascript" src="js/vue-resource.min.js"></script>
+	<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<script type="text/javascript" src="js/util.js"></script>
+	<script type="text/javascript" src="js/api.js"></script>
+	<script type="text/javascript" src="js/wxconfig.js"></script>
+</head>
+<body style="background:#f3f3f3;">
+	<div id="modifyapp" v-cloak>
+		<div class="modifytitle">我要报名</div>
+		<div class="modifyupload">
+			<div class="modifying" @click="chooseimage()"><img :src="modifyimg"></div>
+			<div class="modifyingtext">点击默认图片区域上传图片</div>
+		</div>
+		<input type="text" v-model="modifyname" class="modifyname" @focus="inputfocus()" placeholder="请输入姓名">
+		<textarea type="text" v-model="modifytext" class="modifytext" @focus="inputfocus()" placeholder="请输入宣言"></textarea>
+		<div class="prizepaybtn" @click="postmodify()">点击报名</div>
+		<div class="bombboxbg" v-show="bombbox"></div>
+		<div class="bombbox" v-show="bombbox">
+			<div class="bombboxtext">请上传图片和填写姓名</div>
+			<div class="bombboxbtn" @click="bombbox = false">确定</div>
+		</div>
+		<div class="bombboxbg" v-show="bombboxok"></div>
+		<div class="bombbox" v-show="bombboxok">
+			<div class="bombboxtext">报名成功</div>
+			<div class="bombboxbtn" @click="bombboxoklink()">确定</div>
+		</div>
+		<div class="footer" style="display:none;">
+			<a href="index.html"><img src="images/indexicon.png"> <p>首页</p></a>
+			<a href="prize.html"><img src="images/liwuicon.png"> <p>奖品</p></a>
+			<a href="ranking.html" class="active"><img src="images/phbactive.png"> <p>榜单</p></a>
+		</div>
+	</div>
+	<script type="text/javascript" src="js/modify.js"></script>
+</body>
+</html>

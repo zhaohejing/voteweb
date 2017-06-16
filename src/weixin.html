@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta content="telephone=no" name="format-detection" />
+	<meta name="description" content="">
+	<script type="text/javascript">
+		if(/Android (\d+\.\d+)/.test(navigator.userAgent)) {
+			var version = parseFloat(RegExp.$1);
+			if(version > 2.3) {
+				var phoneScale = parseInt(window.screen.width) / 750;
+				document.write('<meta name="viewport" content="width=750, minimum-scale = ' + phoneScale + ', maximum-scale = ' + phoneScale + ', target-densitydpi=device-dpi" />');
+			} else {
+				document.write('<meta name="viewport" content="width=750, target-densitydpi=device-dpi" />');
+			}
+		} else {
+			document.write('<meta name="viewport" content="width=750, user-scalable=no, target-densitydpi=device-dpi" />');
+		}
+	</script>
+	<style>
+	.weui_msg_title {
+	    margin-bottom: 5px;
+	    margin-top: 200px;
+	    font-weight: 400;
+	    font-size: 2em;
+	    text-align: center;
+	}
+	</style>
+</head>
+<body>
+	<h4 class="weui_msg_title">请在微信客户端打开链接</h4>
+</body>
+</html>

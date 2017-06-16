@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title id="votetitle">奖品列表</title>
+	<meta content="telephone=no" name="format-detection" />
+	<meta name="description" content="">
+	<script type="text/javascript">
+		if(/Android (\d+\.\d+)/.test(navigator.userAgent)) {
+			var version = parseFloat(RegExp.$1);
+			if(version > 2.3) {
+				var phoneScale = parseInt(window.screen.width) / 750;
+				document.write('<meta name="viewport" content="width=750, minimum-scale = ' + phoneScale + ', maximum-scale = ' + phoneScale + ', target-densitydpi=device-dpi" />');
+			} else {
+				document.write('<meta name="viewport" content="width=750, target-densitydpi=device-dpi" />');
+			}
+		} else {
+			document.write('<meta name="viewport" content="width=750, user-scalable=no, target-densitydpi=device-dpi" />');
+		}
+	</script>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<script type="text/javascript" src="js/vue.min.js"></script>
+	<script type="text/javascript" src="js/vue-resource.min.js"></script>
+	<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<script type="text/javascript" src="js/util.js"></script>
+	<script type="text/javascript" src="js/api.js"></script>
+	<script type="text/javascript" src="js/wxconfig.js"></script>
+</head>
+<body>
+	<div id="prizeapp" v-cloak>
+		<div class="prizecont">
+			<div class="prizecontlist" v-for="prizeslist in prizeslistData">
+				<div class="prizetitle">{{prizeslist.prizeName}}</div>
+				<div class="prizeimg"><img :src="prizeslist.imageUrl"></div>
+				<div class="prizetext">{{prizeslist.description}}</div>
+			</div>
+			<div class="prizestatement">
+				<p>礼物功能郑重声明：</p>
+				<p>1、本次活动礼物功能为第三方投票系统自带功能，一个礼物点可兑换票数为3票；</p>
+				<p>2、用户为评选宝贝赠送礼物，均为自愿购买行为，平台不承担任何法律责任，所选礼物售出后概不退款！</p>
+			</div>
+		</div>
+		<div class="weui-toast" v-show="loadingshow">
+			<i class="weui-loading weui-icon_toast"></i>
+			<p class="weui-toast__content">加载中...</p>
+		</div>
+		<div class="footer">
+			<a :href="'index.html?activityId='+linkid"><img src="images/indexicon.png"> <p>首页</p></a>
+			<a :href="'prize.html?activityId='+linkid" class="active"><img src="images/liwuactive.png"> <p>奖品</p></a>
+			<a :href="'ranking.html?activityId='+linkid"><img src="images/phbicon.png"> <p>榜单</p></a>
+		</div>
+	</div>
+	<script type="text/javascript" src="js/prize.js"></script>
+</body>
+</html>

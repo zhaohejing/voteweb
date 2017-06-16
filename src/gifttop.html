@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title id="votetitle">礼物排行</title>
+	<meta content="telephone=no" name="format-detection" />
+	<meta name="description" content="">
+	<script type="text/javascript">
+		if(/Android (\d+\.\d+)/.test(navigator.userAgent)) {
+			var version = parseFloat(RegExp.$1);
+			if(version > 2.3) {
+				var phoneScale = parseInt(window.screen.width) / 750;
+				document.write('<meta name="viewport" content="width=750, minimum-scale = ' + phoneScale + ', maximum-scale = ' + phoneScale + ', target-densitydpi=device-dpi" />');
+			} else {
+				document.write('<meta name="viewport" content="width=750, target-densitydpi=device-dpi" />');
+			}
+		} else {
+			document.write('<meta name="viewport" content="width=750, user-scalable=no, target-densitydpi=device-dpi" />');
+		}
+	</script>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<script type="text/javascript" src="js/vue.min.js"></script>
+	<script type="text/javascript" src="js/vue-resource.min.js"></script>
+	<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<script type="text/javascript" src="js/util.js"></script>
+	<script type="text/javascript" src="js/api.js"></script>
+	<script type="text/javascript" src="js/wxconfig.js"></script>
+	<script type="text/javascript" src="js/Plug.js"></script>
+</head>
+<body>
+	<div id="gifttopapp" v-cloak>
+		<div class="countdown">
+			<div class="countdowntext">活动结束倒计时</div>
+			<countdown v-bind:endtime="endTime"></countdown>
+		</div>
+		<div class="rankingtab">
+			<a :href="'ranking.html?activityId='+linkid" class="rankingline">票数榜</a>
+			<a :href="'gifttop.html?activityId='+linkid" class="active">礼物榜</a>
+			<div class="clear"></div>
+		</div>
+		<div class="rankinglist">
+			<div class="rankingcont" v-for="(actorslist,index) in actorslistData" @click="infolink(actorslist.id,actorslist.activityId)">
+				<div class="rankingcontimg">
+					<div class="rankingconthg"><img :src="index <= 2?'images/king.png':'images/kinghui.png'"></div>
+					<div class="rankingconttx"><img :src="actorslist.actorImage"></div>
+				</div>
+				<div class="rankingcontinfo">
+					<div class="rankingcontname">{{actorslist.actorName}} {{actorslist.sort}}号</div>
+					<div class="rankingcontvote">票数{{actorslist.actorCount+actorslist.giftCount}} 礼物{{actorslist.totalPrice}}点</div>
+				</div>
+				<div class="rankingcontnum" :class="index <= 2?'':'rankingcontnumhui'">{{index+1}}</div>
+			</div>
+			<div class="clear"></div>
+			<div class="loadlist" @click="loadmore()">查看更多</div>
+		</div>
+		<div class="bombboxbg" v-show="bombbox"></div>
+		<div class="bombbox" v-show="bombbox">
+			<div class="bombboxtext" v-html="bombboxtext"></div>
+			<div class="bombboxbtn" @click="bombbox = false">确定</div>
+		</div>
+		<div class="weui-toast" v-show="loadingshow">
+			<i class="weui-loading weui-icon_toast"></i>
+			<p class="weui-toast__content">加载中...</p>
+		</div>
+		<div class="footer">
+			<a :href="'index.html?activityId='+linkid"><img src="images/indexicon.png"> <p>首页</p></a>
+			<a :href="'prize.html?activityId='+linkid"><img src="images/liwuicon.png"> <p>奖品</p></a>
+			<a :href="'ranking.html?activityId='+linkid" class="active"><img src="images/phbactive.png"> <p>榜单</p></a>
+		</div>
+	</div>
+	<script type="text/javascript" src="js/gifttop.js"></script>
+</body>
+</html>
